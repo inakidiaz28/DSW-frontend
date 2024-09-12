@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 //Modules
 import {ReactiveFormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 //componentes
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -22,7 +23,8 @@ import { AddEditProductComponent } from './components/add-edit-product/add-edit-
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
