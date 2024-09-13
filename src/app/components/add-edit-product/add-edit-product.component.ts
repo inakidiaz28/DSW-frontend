@@ -56,15 +56,17 @@ export class AddEditProductComponent implements OnInit {
       ingrediente.codIngrediente= this.codIngrediente;
       this._productService.updateIngrediente(this.codIngrediente, ingrediente).subscribe(() =>{
         this.toastr.success(`El ingrediente ${ingrediente.descripcion} fue modificado con éxito`, 'Ingrediente modificado')
-        this.router.navigate(['/']) 
         this.loading = false;
+        this.router.navigate(['/']) 
+        
       })
     } else{
       this._productService.saveIngrediente(ingrediente).subscribe(() => {
         console.log('INGREDIENTE AGREGADO')
         this.toastr.success(`El ingrediente ${ingrediente.descripcion} fue registrado con éxito`, 'Ingrediente Registrado')
-        this.router.navigate(['/'])
         this.loading = false;
+        this.router.navigate(['/'])
+
   
         })
          
