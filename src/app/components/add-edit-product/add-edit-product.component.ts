@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product } from 'src/app/interfaces/product.js';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Ingrediente } from 'src/app/interfaces/ingrediente.js';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -9,25 +12,63 @@ import { Product } from 'src/app/interfaces/product.js';
 })
 export class AddEditProductComponent implements OnInit {
   form: FormGroup;
+  loading: boolean = false;
+  codIngrediente: number;
+  operacion: string = 'Agregar '
 
-  constructor(private fb:FormBuilder) {
+  constructor(private fb:FormBuilder, private _productService: ProductService, private router: Router, private toastr: ToastrService, private aRouter: ActivatedRoute) {
     this.form = this.fb.group({
-       name: ['',Validators.required],
-       description: ['',Validators.required],
-       price: [null,Validators.required],
+       descripcion: ['',Validators.required],
        stock: [null,Validators.required],
     })
+    this.codIngrediente= Number (aRouter.snapshot.paramMap.get('codIngrediente'));
+
     
    }
 
   ngOnInit(): void {
+    if(this.codIngrediente != 0){
+      this.operacion = 'Editar '
+      this.getIngrediente(this.codIngrediente);
+    }
   }
-  addProduct(){
-    const product: Product = {
-      name: this.form.value.name,
-      description: this.form.value.description,
-      price: this.form.value.price,
+
+  getIngrediente(codIngrediente:number){
+    this.loading = true;
+    this._productService.getIngrediente(codIngrediente).subscribe((data:Ingrediente)=>{
+      console.log(data)
+      this.loading = false;
+      this.form.setValue({
+        descripcion: data.descripcion,
+        stock: data.stock
+      })
+    })
+  }
+
+
+  addIngrediente(){
+    const ingrediente: Ingrediente = {
+      descripcion: this.form.value.descripcion,
       stock: this.form.value.stock
       }
-      console.log(product)  }
+    this.loading= true;
+    if(this.codIngrediente !== 0){
+      ingrediente.codIngrediente= this.codIngrediente;
+      this._productService.updateIngrediente(this.codIngrediente, ingrediente).subscribe(() =>{
+        this.toastr.success(`El ingrediente ${ingrediente.descripcion} fue modificado con éxito`, 'Ingrediente modificado')
+        this.router.navigate(['/']) 
+        this.loading = false;
+      })
+    } else{
+      this._productService.saveIngrediente(ingrediente).subscribe(() => {
+        console.log('INGREDIENTE AGREGADO')
+        this.toastr.success(`El ingrediente ${ingrediente.descripcion} fue registrado con éxito`, 'Ingrediente Registrado')
+        this.router.navigate(['/'])
+        this.loading = false;
+  
+        })
+         
+    }
+
+    }
   }

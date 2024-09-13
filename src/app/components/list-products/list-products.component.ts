@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/interfaces/product';
+import { ToastrService } from 'ngx-toastr';
+import { Ingrediente } from 'src/app/interfaces/ingrediente';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -9,22 +10,52 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ListProductsComponent implements OnInit {
 
-  listProducts: Product [] = [
-  {id: 1,name: 'hambuerguesa simple',description:'cheddar y 220gramos angus',price:6000,stock:20 },
-  {id: 2,name: 'hambuerguesa doble',description:'cheddar y 2 medallones',price:8000,stock:10 }]
+  listProducts: Ingrediente[] = [];
+  loading: boolean = false;
 
-
-  constructor(private _productService:ProductService) { }
-   
+  constructor(private _productService: ProductService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getListIngredientes();
   }
 
-  getListIngredientes(){
+  // Función para obtener la lista de ingredientes
+  getListIngredientes() {
+    this.loading = true;
     this._productService.getListIngredientes().subscribe((data) => {
-      console.log(data);
-    })
+        console.log('Datos recibidos desde la API:', data); 
+        this.listProducts = data.data; 
+        console.log('Lista de productos actualizada:', this.listProducts);
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error al obtener los ingredientes', error);
+      }
+    )
+  }
+  
+
+
+  editIngrediente(ingrediente: Ingrediente) {
+    console.log('Editando ingrediente:', ingrediente);
+
   }
 
+  deleteIngrediente(codIngrediente: number) {
+    console.log('Eliminando ingrediente:', codIngrediente);
+    this.loading = true;
+    this._productService.deleteIngrediente(codIngrediente).subscribe(() =>{
+      this.loading= false;
+      this.getListIngredientes();
+      this.toastr.warning('El ingrediente ha sido eliminado con éxito','Ingrediente Eliminado')
+
+    })
+
+  }
+
+  // Función para agregar un nuevo ingrediente
+  addIngrediente() {
+    console.log('Agregando nuevo ingrediente');
+    // Lógica para agregar un nuevo ingrediente (aquí puedes abrir un modal o formulario para agregar)
+  }
 }
