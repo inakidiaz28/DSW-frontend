@@ -13,8 +13,8 @@ import { ToastrModule } from 'ngx-toastr';
 
 //componentes
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ListProductsComponent } from './components/list-products/list-products.component';
-import { AddEditProductComponent } from './components/add-edit-product/add-edit-product.component';
+import { ListProductsComponent } from './components/INGREDIENTES/list-products/list-products.component';
+import { AddEditProductComponent } from './components/INGREDIENTES/add-edit-product/add-edit-product.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 

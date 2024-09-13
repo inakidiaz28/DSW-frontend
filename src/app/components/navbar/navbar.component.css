@@ -14,7 +14,13 @@
     text-align: center;
     padding-left: 20px;
     transition: color 0.3s ease; /* Efecto de transición al pasar el mouse */
+
 }
+.navbar-brand img {
+    height: 100px; /* Ajusta según el tamaño que desees */
+    width: auto; /* Mantiene la proporción original */
+  }
+  
 
 /* Hover en el logo */
 .navbar-brand:hover {
