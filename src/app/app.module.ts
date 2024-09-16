@@ -17,6 +17,8 @@ import { ListProductsComponent } from './components/INGREDIENTES/list-products/l
 import { AddEditProductComponent } from './components/INGREDIENTES/add-edit-product/add-edit-product.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { ListHamburguesasComponent } from './components/HAMBURGUESAS/list-hamburguesas/list-hamburguesas.component';
+import { AddEditHamburguesasComponent } from './components/HAMBURGUESAS/add-edit-hamburguesas/add-edit-hamburguesas.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
     ListProductsComponent,
     AddEditProductComponent,
     ProgressBarComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    ListHamburguesasComponent,
+    AddEditHamburguesasComponent
   ],
   imports: [
     BrowserModule,
